@@ -1,61 +1,24 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class App extends React.Component {
-
-  constructor() {
-    super();
-    this.state = {
-      red: 0,
-      green: 0,
-      blue: 0
-    };
-    this.update = this.update.bind(this); // Shorthand so we don't have to call this.update.bind(this) in render()
-  }
-
-  update(e) {
-    /*
-     this.setState({
-       red: ReactDOM.findDOMNode(this.refs.red).value,
-       green: ReactDOM.findDOMNode(this.refs.green).value,
-       blue: ReactDOM.findDOMNode(this.refs.blue).value
-     });
-     */
-    this.setState({
-      red: ReactDOM.findDOMNode(this.refs.red.refs.inp).value,
-      green: ReactDOM.findDOMNode(this.refs.green.refs.inp).value,
-      blue: ReactDOM.findDOMNode(this.refs.blue.refs.inp).value
-    });
-  }
-
   render() {
-    return (
-      <div>
-        <Slider ref="red" update={this.update}/>
-        {this.state.red}
-        <br />
-        <Slider ref="green" update={this.update}/>
-        {this.state.green}
-        <br />
-        <Slider ref="blue" update={this.update}/>
-        {this.state.blue}
-        <br />
-      </div>
-    );
+    // Can also include other components as well as text
+    return <Button>I <Heart /> React</Button>;
   }
 }
 
-class Slider extends React.Component {
+class Button extends React.Component {
   render() {
-    return (
-      //<input type="range" min="0" max="255" onChange={this.props.update}/>
-      <div>
-        <input type="range" min="0" max="255" ref="inp" onChange={this.props.update}/>
-      </div>
-    );
+    // this.props.children directly references the values between the tags in App
+    return <button>{this.props.children}</button>;
   }
 }
+
+const Heart = () => {
+  // Here we have a span with a bootstrap glyphicon heart
+  return <span className="glyphicon glyphicon-heart"></span>
+};
 
 export default App;
