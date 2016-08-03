@@ -6,67 +6,42 @@ import ReactDOM from 'react-dom';
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      val: 0
-    };
     this.update = this.update.bind(this);
+    this.state = {
+      increasing: false
+    }
   }
 
   update() {
-    this.setState({val: ( this.state.val || 0 ) + 1});
-  }
-
-  // Calls before the component mounts
-  componentWillMount() {
-    // Can be used to set state just before the component is rendered to the DOM, in this case a multiplier
-    this.setState({m: 2});
-  }
-
-  // After component mounts, render once and whenever the dom changes
-  render() {
-    console.log('rendering');
-    return <button onClick={this.update}>{this.state.val * this.state.m}</button>
-  }
-
-  // Calls after the component mounts
-  componentDidMount() {
-    // Can be used to begin polling, or here it will call update 2 times per second
-    this.inc = setInterval(this.update, 500);
-    console.log(ReactDOM.findDOMNode(this));
-  }
-
-  // Calls before the component unmounts
-  componentWillUnmount() {
-    // Can be used to clean up the state of the application
-    clearInterval(this.inc);
-  }
-}
-
-class Wrapper extends React.Component {
-
-  constructor() {
-    super();
-    this.mount = this.mount.bind(this);
-    this.unmount = this.unmount.bind(this);
-  }
-
-  mount() {
-    ReactDOM.render(<App />, document.getElementById('a'));
-  }
-
-  unmount() {
-    ReactDOM.unmountComponentAtNode(document.getElementById('a'));
-  }
-
-  render() {
-    return (
-      <div>
-        <button onClick={this.mount}>Mount</button>
-        <button onClick={this.unmount}>Unmount</button>
-        <div id="a"></div>
-      </div>
+    ReactDOM.render(
+      <App val={this.props.val + 1}/>,
+      document.getElementById('app')
     );
   }
+
+  // Can do modifications before props are propagated to the component
+  componentWillReceiveProps(nextProps) {
+    this.setState({increasing: nextProps.val > this.props.val});
+  }
+
+  // Return a boolean here, determines if the component should re-render
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.val % 5 === 0;
+  }
+
+  render() {
+    console.log(this.state.increasing);
+    return <button onClick={this.update}>{this.props.val}</button>
+  }
+
+  // Method that is called only if the component is re-rendered
+  componentDidUpdate(prevProps, prevState) {
+    console.log('prevProps', prevProps);
+  }
 }
 
-export default Wrapper;
+App.defaultProps = {
+  val: 0
+};
+
+export default App;
