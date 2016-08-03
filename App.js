@@ -1,30 +1,34 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class App extends React.Component {
+
+  constructor() {
+    super();
+    // State is initialized in the constructor for class components
+    this.state = {
+      txt: 'this is the state txt',
+      cat: 0
+    };
+  }
+
+  update(e) {
+    // Use setState method to update state
+    // Do not modify the state object directly
+    // setState will not effect keys that are not specified (cat will still be 0)
+    this.setState({txt: e.target.value});
+  }
+
   render() {
-    // all React Components have props. These are attributes you pass to the component.
-    let txt = this.props.txt;
-    return <h1>{txt}</h1>
+    return (
+      <div>
+        <input type="text" onChange={this.update.bind(this)} />
+        <h1>{this.state.txt}</h1>
+      </div>
+    );
   }
 }
 
-// It is a good idea to define all React prop types that we use.
-App.propTypes = {
-  txt: React.PropTypes.string,
-  cat: React.PropTypes.number.isRequired
-};
 
-// You can also specify default properties of any React Component
-App.defaultProps = {
-  txt: 'This is the default text!',
-  cat: 0
-};
-
-ReactDOM.render(
-  //<App txt="this is the props value" cat={5} />,
-  <App cat={5} />,
-  document.getElementById('app')
-);
+export default App;
