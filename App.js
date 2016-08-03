@@ -1,47 +1,56 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-class App extends React.Component {
+// Using a higher order component to wrap inner components to share functionality
+let Mixin = InnerComponent => class extends React.Component {
   constructor() {
     super();
     this.update = this.update.bind(this);
-    this.state = {
-      increasing: false
-    }
+    this.state = {val: 0};
   }
 
   update() {
-    ReactDOM.render(
-      <App val={this.props.val + 1}/>,
-      document.getElementById('app')
-    );
+    this.setState({val: (this.state.val || 0) + 1});
   }
 
-  // Can do modifications before props are propagated to the component
-  componentWillReceiveProps(nextProps) {
-    this.setState({increasing: nextProps.val > this.props.val});
-  }
-
-  // Return a boolean here, determines if the component should re-render
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.val % 5 === 0;
+  componentWillMount() {
+    console.log('will mount');
   }
 
   render() {
-    console.log(this.state.increasing);
-    return <button onClick={this.update}>{this.props.val}</button>
+    return <InnerComponent
+      update={this.update}
+      {...this.state}
+      {...this.props}
+    />
   }
 
-  // Method that is called only if the component is re-rendered
-  componentDidUpdate(prevProps, prevState) {
-    console.log('prevProps', prevProps);
+  componentDidMount() {
+    console.log('mounted');
   }
-}
-
-App.defaultProps = {
-  val: 0
 };
+
+// Mixin functionality on click
+const Button = (props) => <button onClick={props.update}>{props.txt} - {props.val}</button>;
+
+// Mixin functionality on mouse move
+const Label = (props) => <label onMouseMove={props.update}>{props.txt} - {props.val}</label>;
+
+let ButtonMixed = Mixin(Button);
+let LabelMixed = Mixin(Label);
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <ButtonMixed txt="Button"/>
+        <br />
+        <LabelMixed txt="Label"/>
+      </div>
+    )
+  }
+
+}
 
 export default App;
