@@ -18,23 +18,27 @@ class App extends React.Component {
 
   // Calls before the component mounts
   componentWillMount() {
-    console.log('mounting');
+    // Can be used to set state just before the component is rendered to the DOM, in this case a multiplier
+    this.setState({m: 2});
   }
 
   // After component mounts, render once and whenever the dom changes
   render() {
     console.log('rendering');
-    return <button onClick={this.update}>{this.state.val}</button>
+    return <button onClick={this.update}>{this.state.val * this.state.m}</button>
   }
 
   // Calls after the component mounts
   componentDidMount() {
-    console.log('mounted');
+    // Can be used to begin polling, or here it will call update 2 times per second
+    this.inc = setInterval(this.update, 500);
+    console.log(ReactDOM.findDOMNode(this));
   }
 
   // Calls before the component unmounts
   componentWillUnmount() {
-    console.log('bye');
+    // Can be used to clean up the state of the application
+    clearInterval(this.inc);
   }
 }
 
