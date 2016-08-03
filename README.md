@@ -4,6 +4,11 @@ Step by step following of [EggHead.io React Fundamentals](https://egghead.io/cou
 
 Each commit to this project will map directly to the videos in the order of their tutorial.
 
+The videos **React Fundamentals: JSX Deep Dive**, **React Fundamentals: Precompile JSX**, and **React Fundamentals: Developer Tools** do not have major code changes but illustrate:
+* What JSX looks like after it is compiled to React
+* Pros and Cons of using React.createElement and JSX
+* Handiness of the Chrome addon [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+
 
 ## License
 
