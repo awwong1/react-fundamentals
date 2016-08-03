@@ -2,16 +2,18 @@
 
 import React from 'react';
 
-/*
-// Stateful class method
 class App extends React.Component {
   render() {
-    return <h1>Hello World!</h1>
+    // Render can only return one root node,
+    // parenthesis wrapping for whitespace
+    return (
+      <div>
+        <h1>Hello World!</h1>
+        <b>Bold</b>
+      </div>
+    );
   }
 }
-*/
 
-// Stateless function component method
-const App = () => { return <h1>Hello Stateless World!</h1>};
 
 export default App;
