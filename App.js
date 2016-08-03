@@ -1,99 +1,46 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      red: 0,
-      green: 0,
-      blue: 0
-    };
-    this.update = this.update.bind(this);
+      data: [
+        {id: 1, name: 'Cat'},
+        {id: 2, name: 'Dog'},
+        {id: 3, name: 'Horse'},
+        {id: 4, name: 'Pig'},
+        {id: 5, name: 'Dragon'},
+        {id: 6, name: 'Goat'},
+      ]
+    }
   }
 
-  update(e) {
-    this.setState({
-      red: ReactDOM.findDOMNode(this.refs.red.refs.inp).value,
-      green: ReactDOM.findDOMNode(this.refs.green.refs.inp).value,
-      blue: ReactDOM.findDOMNode(this.refs.blue.refs.inp).value
+  render() {
+    let rows = this.state.data.map(person => {
+      return <PersonRow key={person.id} data={person}/>
     });
-  }
 
-  render() {
     return (
-      <div>
-        <NumInput
-          ref="red"
-          min={0}
-          max={255}
-          step={1}
-          val={+this.state.red} // coercing this value to be a number
-          label="Red"
-          update={this.update}/>
-        <NumInput
-          ref="green"
-          min={0}
-          max={255}
-          step={1}
-          val={+this.state.green} // coercing this value to be a number
-          type="number"
-          label="green"
-          update={this.update}/>
-        <NumInput
-          ref="blue"
-          min={0}
-          max={255}
-          step={0.1}
-          val={+this.state.blue} // coercing this value to be a number
-          type="number"
-          label="blue"
-          update={this.update}/>
-      </div>
+      <table>
+        <tbody>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+        {rows}
+        </tbody>
+      </table>
     )
   }
 }
 
-
-// This is a much more composable way of doing the slider example we had before
-class NumInput extends React.Component {
-  render() {
-    let label = this.props.label !== '' ?
-      <label>{this.props.label} - {this.props.val}</label> : '';
-    return (
-      <div>
-        <input ref="inp"
-               type={this.props.type}
-               min={this.props.min}
-               max={this.props.max}
-               step={this.props.step}
-               defaultValue={this.props.val}
-               onChange={this.props.update}/>
-        {label}
-      </div>
-    )
-  }
+const PersonRow = (props) => {
+  return <tr>
+    <td>{props.data.id}</td>
+    <td>{props.data.name}</td>
+  </tr>
 }
-
-NumInput.propTypes = {
-  min: React.PropTypes.number,
-  max: React.PropTypes.number,
-  step: React.PropTypes.number,
-  val: React.PropTypes.number,
-  label: React.PropTypes.string,
-  update: React.PropTypes.func.isRequired,
-  type: React.PropTypes.oneOf(['number', 'range']),
-};
-
-NumInput.defaultProps = {
-  min: 0,
-  max: 0,
-  step: 1,
-  val: 0,
-  label: '',
-  type: 'range'
-};
 
 export default App;
