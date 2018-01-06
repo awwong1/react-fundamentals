@@ -1,5 +1,7 @@
 # React Fundamentals
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/awwong1/react-fundamentals.svg)](https://greenkeeper.io/)
+
 Step by step following of [EggHead.io React Fundamentals](https://egghead.io/courses/react-fundamentals) tutorial.
 
 Each commit to this project will map directly to the videos in the order of their tutorial.
